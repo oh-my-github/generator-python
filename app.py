@@ -12,7 +12,14 @@ def json_serial(obj):
   # raise return obj
   """TypeError("Type not serializable")"""
 
-AUTH_TOKEN = 'PLEASE TYPE YOUR TOKEN'
+AUTH_TOKEN = 'PLEASE TYPE YOUR GITHUB API TOKEN'
+
+if len(sys.argv) > 1:
+    if sys.argv[1] is not None or sys.argv[1] != '':
+        AUTH_TOKEN = sys.argv[1]
+else:
+    raise SyntaxError('please type your github api token')
+
 user = Github(login_or_token=AUTH_TOKEN)
 
 omg_data = dict()
