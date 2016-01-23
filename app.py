@@ -3,7 +3,7 @@
 from github import Github
 from datetime import datetime
 
-import json
+import json, sys
 
 def json_serial(obj):
   """JSON Serializer for objects not serializable by default json code"""
@@ -13,11 +13,6 @@ def json_serial(obj):
   """TypeError("Type not serializable")"""
 
 AUTH_TOKEN = 'PLEASE TYPE YOUR TOKEN'
-data = json.loads(open('oh-my-github.sample.json', 'r').read())
-
-print(data['user'].keys())
-print()
-
 user = Github(login_or_token=AUTH_TOKEN)
 
 omg_data = dict()
@@ -56,13 +51,13 @@ for repo in repos:
     repo_data['language'] = repo.language
     repo_data['fork'] = repo.fork is None if False else True
     repo_data['open_issues_count'] = repo.open_issues_count
-    repo_data['url'] = repo.url
+    repo_data['url'] = repo.html_url
     omg_data['repositories'].append(repo_data)
 
     lang_data = dict()
-    lang_data['owner'] = repo.owner.name
+    lang_data['owner'] = repo.owner.login
     lang_data['repo_name'] = repo.name
-    lang_data['url'] = repo.url
+    lang_data['url'] = repo.html_url
     lang_data['languages'] = []
     for language, line in repo.get_languages().items():
         lang = dict()
