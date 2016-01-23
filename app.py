@@ -59,4 +59,17 @@ for repo in repos:
     repo_data['url'] = repo.url
     omg_data['repositories'].append(repo_data)
 
+    lang_data = dict()
+    lang_data['owner'] = repo.owner.name
+    lang_data['repo_name'] = repo.name
+    lang_data['url'] = repo.url
+    lang_data['languages'] = []
+    for language, line in repo.get_languages().items():
+        lang = dict()
+        if language is not None and language != '':
+            lang['name'] = language
+            lang['line'] = line
+            lang_data['languages'].append(lang)
+    omg_data['languages'].append(lang_data)
+
 print(json.dumps(omg_data, indent=4, default=json_serial))
